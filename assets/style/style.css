@@ -47,3 +47,7 @@ main{
     filter: brightness(1.2);
     scale: 1.02;
 }
+
+.esconder {
+    display: none;
+}
