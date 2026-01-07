@@ -8,6 +8,12 @@ const urlTopRated = `https://api.themoviedb.org/3/movie/top_rated?api_key=${key}
 const urlUpComing = `https://api.themoviedb.org/3/movie/upcoming?api_key=${key}&language=en-US&page=1`
 const urlImg = `https://image.tmdb.org/t/p/original`
 
+// Elementos que traigo desde el index.html 
+const contenedorPeliculas = document.querySelector(".contenedor-peliculas")
+const pagina = document.querySelector(".pagina")
+const botonSiguiente = document.querySelector(".siguiente")
+const botonAnterior = document.querySelector(".anterior")
+
 // Objeto para poder mantener el estado actual de la aplicación
 const appState = {
     page: null,
@@ -16,9 +22,49 @@ const appState = {
     url: urlTrending
 }
 
+// Función para renderizar las películas que se muestran apenas se ejecuta la aplicación
+const renderInicial = async() => {
+    // Como la función del request tiene por defecto page=1, si no le paso un parámetro, toma dicho valor 
+    const data = await requestAPI(appState.url)
+    appState.totalPage = data.total_pages
+    appState.page = data.page
+    actualizarPaginado()
+}
+
+const actualizarPaginado = () => {
+    pagina.innerHTML = appState.page
+    toggleBotonAnterior(appState.page)
+    toggleBotonSiguiente(appState.page)
+
+    
+}
+
+// Función para deshabilitar el botón anterior cuando la página es 1
+const toggleBotonAnterior = (pagina) => {
+    if (pagina === 1){
+        botonAnterior.classList.add("bloquear")
+    } else{ 
+        botonAnterior.classList.remove("bloquear")
+    }
+}
+
+// Función para deshabilitar el botón siguiente cuando la página llega al máximo permitido
+const toggleBotonSiguiente = (pagina) => {
+    if (pagina === appState.totalPage){
+        botonSiguiente.classList.add("bloquear")
+    } else {
+        botonSiguiente.classList.remove("bloquear")
+    }
+}
+
+
+
+
+
 // Función inicializadora de la aplicación
 const init = () => {
-    requestAPI(urlTrending,5)
+    // Apenas se carga todo el DOM de la aplicación, se escucha este evento para disparar la función correspondiente
+    window.addEventListener("DOMContentLoaded", renderInicial)
 }
 
 init()

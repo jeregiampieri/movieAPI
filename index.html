@@ -10,18 +10,19 @@
     <main>
         <img class="banner" src="./assets/img/banner.png" alt="Imagen del banner">
         <div class="contenedor-filtros">
-            <button class="filtro trending">TRENDING</button>
+            <button class="filtro trending activo">TRENDING</button>
             <button class="filtro top-rated">TOP RATED</button>
             <button class="filtro up-coming">UPCOMING</button>
         </div>
-        <div class="contenedor-peliculas-trending esconder">
-            
-        </div>
-        <div class="contenedor-peliculas-topRated esconder">
+        <div class=""></div>
+        <!-- No hace falta un contenedor por cada filtro, ya que puedo vaciar el contenido del contenedor cuando haga el cambio de filtro -->
+        <div class="contenedor-peliculas">
 
         </div>
-        <div class="contenedor-peliculas-upComing esconder">
-
+        <div class="contenedor-paginado">
+            <button class="anterior"><</button>
+            <p class="pagina">0</p>
+            <button class="siguiente">></button>
         </div>
     </main>
     <script src="./assets/request/request.js" defer></script>

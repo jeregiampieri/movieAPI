@@ -37,7 +37,7 @@ main{
     padding: 20px 40px;
     border-radius: 5px;
     background-color: rgba(0, 30, 199, 0.69);
-    border: 1px solid #131415;
+    border: 1px solid rgba(0, 30, 199, 0.69);
     color: aliceblue;
     cursor: pointer;
     transition: all ease 0.5s;
@@ -48,6 +48,63 @@ main{
     scale: 1.02;
 }
 
+.activo{
+    background-color: blue;
+    box-shadow: 0px 0px 8px 0px rgb(0, 157, 255);
+    -webkit-box-shadow: 0px 0px 8px 0px rgb(0, 157, 255);
+    -moz-box-shadow: 0px 0px 8px 0px rgb(0, 157, 255);
+}
+
+/* Contenido del manejador de paginado */
+.contenedor-paginado{
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    bottom: 20px;
+}
+
+.anterior{
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 30, 199, 0.69);
+    border: 1px solid rgba(0, 30, 199, 0.69);
+    color: aliceblue;
+    cursor: pointer;
+    transition: all ease 0.5s;
+}
+
+.anterior:hover{
+    filter: brightness(1.2);
+    scale: 1.02;
+}
+
+.siguiente{
+    padding: 5px 10px;
+    border-radius: 5px;
+    background-color: rgba(0, 30, 199, 0.69);
+    border: 1px solid rgba(0, 30, 199, 0.69);
+    color: aliceblue;
+    cursor: pointer;
+    transition: all ease 0.5s;
+}
+
+.siguiente:hover{
+    filter: brightness(1.2);
+    scale: 1.02;
+}
+
 .esconder {
     display: none;
 }
+
+.bloquear {
+    background-color: gray;
+    cursor: not-allowed;
+    box-shadow: unset;
+    border: 1px solid gray;
+}
+
+
+
