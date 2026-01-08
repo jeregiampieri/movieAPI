@@ -28,6 +28,7 @@ const renderInicial = async() => {
     const data = await requestAPI(appState.url)
     appState.totalPage = data.total_pages
     appState.page = data.page
+    console.log(data)
     renderPeliculas(data.results)
 }
 
@@ -48,10 +49,11 @@ const peliculaCardTemplate = (pelicula) => {
         <div class="contenedor-pelicula">
             <img src="${urlImg}${pelicula.imagen}"
             alt="Imagen de ${pelicula.titulo}"
-            card ="imagen-pelicula"/>
-            <p class="popularidad-pelicula"></p>
+            class="imagen-pelicula"/>
+            <span class="blur"></span>
+            <p class="popularidad-pelicula">75% de popularidad</p>
             <div class="contenido-pelicula">
-                <h2>${pelicula.titulo}</h2>
+                <h2>${pelicula.titulo.toUpperCase()}</h2>
                 <p>Fecha de estreno: ${pelicula.fecha}</p>
             </div>
 

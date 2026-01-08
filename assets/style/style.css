@@ -95,10 +95,6 @@ main{
     scale: 1.02;
 }
 
-.esconder {
-    display: none;
-}
-
 .bloquear {
     background-color: rgba(128, 128, 128, 0.473);
     cursor: not-allowed;
@@ -106,5 +102,77 @@ main{
     border: 1px solid rgba(128, 128, 128, 0.473);
 }
 
+/* Fin del estilado en el paginado */
+
+/* Comienzo del estilado en el renderizado de las peliculas */
+.contenedor-peliculas{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-wrap: wrap;
+    gap: 45px;
+    /* background-color: red; */
+}
+
+.contenedor-pelicula{
+    display: flex;
+    flex-direction: column;
+    width: 30.5%;
+    position: relative;
+}
+
+.imagen-pelicula{
+    width: 100%;
+    height: 100%;
+}
+
+.popularidad-pelicula{
+    display: flex;
+    position: absolute;
+    left: 10px;
+    /* background-color: rgba(255, 0, 43, 0.848); */
+    background-color: rgba(5, 5, 203, 0.8);
+    padding: 3px 20px;
+    border-radius: 5px;
+}
+
+.contenido-pelicula{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    justify-content: center;
+    position: absolute;
+    bottom: 35px;
+    left: 15px;
+}
+
+.contenido-pelicula h2{
+    border-left: 3px solid rgba(5, 5, 203, 0.8);
+    padding: 0px 0px 0px 5px;
+}
+
+.contenido-pelicula p{
+    padding: 0px 0px 0px 5px;
+}
+
+.blur{
+    width: 100%;
+    height: 125px;
+    position: absolute;
+    bottom: 0px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.6),
+        rgba(0, 0, 0, 0)
+    );
+}
+
+/* Fin del estilado en el renderizado de las peliculas */
 
 
+.esconder {
+    display: none;
+}
