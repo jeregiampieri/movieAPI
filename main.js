@@ -28,7 +28,7 @@ const renderInicial = async() => {
     const data = await requestAPI(appState.url)
     appState.totalPage = data.total_pages
     appState.page = data.page
-    console.log(data)
+    actualizarPaginado()
     renderPeliculas(data.results)
 }
 
@@ -47,18 +47,27 @@ const renderPeliculas = (data) => {
 const peliculaCardTemplate = (pelicula) => {
     return `
         <div class="contenedor-pelicula">
-            <img src="${urlImg}${pelicula.imagen}"
+            <img src="${urlImg+pelicula.imagen}"
             alt="Imagen de ${pelicula.titulo}"
             class="imagen-pelicula"/>
             <span class="blur"></span>
-            <p class="popularidad-pelicula">75% de popularidad</p>
+            <p class="popularidad-pelicula">${Math.round(pelicula.voto*10)}% de popularidad</p>
             <div class="contenido-pelicula">
                 <h2>${pelicula.titulo.toUpperCase()}</h2>
-                <p>Fecha de estreno: ${pelicula.fecha}</p>
+                <p>Fecha de estreno: ${convertDateType(pelicula.fecha)}</p>
             </div>
-
         </div>
     `
+}
+
+// Función para manejar el tipo fecha (date)
+const convertDateType = (date) => {
+    // Split me devuelve un array, cada elemento perteneciente a dicho array esta separado por -
+    const fecha = date.split("-")
+    const fechaConvert = fecha.map((dato) => {
+        return dato
+    }).reverse().join("/")
+    return fechaConvert
 }
 
 // Cada pelicula es un objeto, por lo tanto, la desestructuración tiene que ser como objeto
@@ -103,6 +112,7 @@ const toggleBotonSiguiente = () => {
 const init = () => {
     // Apenas se carga todo el DOM de la aplicación, se escucha este evento para disparar la función correspondiente
     window.addEventListener("DOMContentLoaded", renderInicial)
+    botonSiguiente.addEventListener("click")
 }
 
 init()
