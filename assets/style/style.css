@@ -100,10 +100,10 @@ main{
 }
 
 .bloquear {
-    background-color: gray;
+    background-color: rgba(128, 128, 128, 0.473);
     cursor: not-allowed;
     box-shadow: unset;
-    border: 1px solid gray;
+    border: 1px solid rgba(128, 128, 128, 0.473);
 }
 
 
