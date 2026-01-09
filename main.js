@@ -13,9 +13,7 @@ const contenedorPeliculas = document.querySelector(".contenedor-peliculas")
 const pagina = document.querySelector(".pagina")
 const botonSiguiente = document.querySelector(".siguiente")
 const botonAnterior = document.querySelector(".anterior")
-const botonTrending = document.querySelector(".trending")
-const botonTopRated = document.querySelector(".top-rated")
-const botonUpComing = document.querySelector(".up-coming")
+const contenedorFiltros = document.querySelector(".contenedor-filtros")
 
 // Objeto para poder mantener el estado actual de la aplicación
 const appState = {
@@ -107,39 +105,45 @@ const toggleBotonSiguiente = () => {
     }
 }
 
+
 // Función para renderizar la próxima página cuando el usuario haga click en el paginado
-const renderProximaPagina = async(evento) => {
-    if (evento.target.classList.contains("siguiente") && appState.page === appState.totalPage){
+const renderProximaPagina = async() => {
+    if (appState.page === appState.totalPage){
         return
-    } else if (evento.target.classList.contains("siguiente") && appState.url === urlTrending){
-        appState.page = appState.page + 1
-        appState.url = urlTrending
-        const data = await requestAPI(appState.url,appState.page)
-        actualizarPaginado()
-        renderPeliculas(data.results)
     } 
+    appState.page = appState.page + 1
+    const data = await requestAPI(appState.url,appState.page)
+    actualizarPaginado()
+    renderPeliculas(data.results)
 }
 
 // Función para renderizar la anterior página cuando el usuario haga click en el paginado
-const renderAnteriorPagina = async(evento) => {
-    if (evento.target.classList.contains("anterior") && appState.page === 1){
+const renderAnteriorPagina = async() => {
+    if (appState.page === 1){
         return
-    } else if (evento.target.classList.contains("anterior") && appState.url === urlTrending){
-        appState.page = appState.page - 1
-        appState.url = urlTrending
-        const data = await requestAPI(appState.url, appState.page)
-        actualizarPaginado()
-        renderPeliculas(data.results)
     } 
+    appState.page = appState.page - 1
+    const data = await requestAPI(appState.url, appState.page)
+    actualizarPaginado()
+    renderPeliculas(data.results)
 }
 
-// Función para renderizar las películas Trending
-// const renderTrending = (evento) => {
-//     if ()
-// }
-
-
-
+// Función para actualizar el appState URL en base a la selección del filtro
+const renderizarPeliculaFiltro = async(evento) => {
+    if (evento.target.classList.contains("trending")){
+        appState.url = urlTrending
+        appState.page = 1
+    } else if (evento.target.classList.contains("top-rated")){
+        appState.url = urlTopRated
+        appState.page = 1
+    } else if (evento.target.classList.contains("up-coming")){
+        appState.url = urlUpComing
+        appState.page = 1
+    }
+    const data = await requestAPI(appState.url)
+    actualizarPaginado()
+    renderPeliculas(data.results)
+}
 
 // Función inicializadora de la aplicación
 const init = () => {
@@ -147,6 +151,7 @@ const init = () => {
     window.addEventListener("DOMContentLoaded", renderInicial)
     botonSiguiente.addEventListener("click", renderProximaPagina)
     botonAnterior.addEventListener("click", renderAnteriorPagina)
+    contenedorFiltros.addEventListener("click", renderizarPeliculaFiltro)
 }
 
 init()
