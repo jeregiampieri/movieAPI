@@ -14,7 +14,7 @@ const pagina = document.querySelector(".pagina")
 const botonSiguiente = document.querySelector(".siguiente")
 const botonAnterior = document.querySelector(".anterior")
 const contenedorFiltros = document.querySelector(".contenedor-filtros")
-const imagen = document.querySelector(".banner")
+const botones = document.querySelectorAll(".filtro")
 
 // Objeto para poder mantener el estado actual de la aplicación
 const appState = {
@@ -110,7 +110,9 @@ const toggleBotonSiguiente = () => {
 const renderProximaPagina = async() => {
     if (appState.page === appState.totalPage){
         return
-    } 
+    } else if (contenedorPeliculas.innerHTML === ""){
+        return
+    }
     appState.page += 1
     actualizarPaginado()
     cargarYmostrar()
@@ -133,26 +135,47 @@ const renderAnteriorPagina = async() => {
     if (appState.page === 1){
         return
     } 
-    appState.page = appState.page - 1
+    appState.page -= 1
     actualizarPaginado()
     cargarYmostrar()
 }
 
-// Función para actualizar el appState URL en base a la selección del filtro
-const renderizarPeliculaFiltro = async(evento) => {
-    if (evento.target.classList.contains("trending")){
-        appState.url = urlTrending
+// Función para verificar si el botón se encuentra activo
+const botonActivo = (boton) => {
+    const activo = boton.classList.contains("activo")
+    return activo
+}
+
+// Función para renderizar las películas en base al filtro seleccionado
+const renderizarPeliculaFiltro = (evento) => {
+    const boton = evento.target
+
+    if (botonActivo(boton) && boton.classList.contains("filtro")){
+        boton.classList.remove("activo")
+        contenedorPeliculas.innerHTML = ""
+        appState.page = 0
+        actualizarPaginado()
+    } else if (boton.classList.contains("filtro")){
+        botones.forEach((boton) =>{
+        boton.classList.remove("activo")
+        })
+        boton.classList.add("activo")
+        appState.url = filtroSeleccionado(boton.dataset.filter)
         appState.page = 1
-    } else if (evento.target.classList.contains("top-rated")){
-        appState.url = urlTopRated
-        appState.page = 1
-    } else if (evento.target.classList.contains("up-coming")){
-        appState.url = urlUpComing
-        appState.page = 1
+        actualizarPaginado()
+        cargarYmostrar()
     }
-    const data = await requestAPI(appState.url)
-    actualizarPaginado()
-    renderPeliculas(data.results)
+}
+
+// Función para poder pasar el filtro que llega desde el botón a la constante correspondiente con la URL
+const filtroSeleccionado = (filtro) => {
+    if (filtro === "TRENDING"){
+        return urlTrending
+    } else if (filtro === "TOPRATED"){
+        return urlTopRated
+    } else {
+        return urlUpComing
+    }
 }
 
 // Función inicializadora de la aplicación
