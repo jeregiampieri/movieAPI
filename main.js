@@ -15,6 +15,7 @@ const botonSiguiente = document.querySelector(".siguiente")
 const botonAnterior = document.querySelector(".anterior")
 const contenedorFiltros = document.querySelector(".contenedor-filtros")
 const botones = document.querySelectorAll(".filtro")
+const imagen = document.querySelector(".banner")
 
 // Objeto para poder mantener el estado actual de la aplicación
 const appState = {
