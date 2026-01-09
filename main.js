@@ -14,6 +14,7 @@ const pagina = document.querySelector(".pagina")
 const botonSiguiente = document.querySelector(".siguiente")
 const botonAnterior = document.querySelector(".anterior")
 const contenedorFiltros = document.querySelector(".contenedor-filtros")
+const imagen = document.querySelector(".banner")
 
 // Objeto para poder mantener el estado actual de la aplicación
 const appState = {
@@ -105,16 +106,26 @@ const toggleBotonSiguiente = () => {
     }
 }
 
-
-// Función para renderizar la próxima página cuando el usuario haga click en el paginado
+// Función para renderizar la próxima página, mostrandl las películas y actualizando el paginado
 const renderProximaPagina = async() => {
     if (appState.page === appState.totalPage){
         return
     } 
-    appState.page = appState.page + 1
-    const data = await requestAPI(appState.url,appState.page)
+    appState.page += 1
     actualizarPaginado()
+    cargarYmostrar()
+}
+
+// Función para cargar y mostrar la próxima página cuando el usuario haga click en el botón
+const cargarYmostrar = async() =>{
+    const data = await requestAPI(appState.url, appState.page)
     renderPeliculas(data.results)
+    requestAnimationFrame(() => {
+        contenedorFiltros.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        })
+    })
 }
 
 // Función para renderizar la anterior página cuando el usuario haga click en el paginado
@@ -123,9 +134,8 @@ const renderAnteriorPagina = async() => {
         return
     } 
     appState.page = appState.page - 1
-    const data = await requestAPI(appState.url, appState.page)
     actualizarPaginado()
-    renderPeliculas(data.results)
+    cargarYmostrar()
 }
 
 // Función para actualizar el appState URL en base a la selección del filtro
