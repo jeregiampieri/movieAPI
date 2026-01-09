@@ -13,6 +13,9 @@ const contenedorPeliculas = document.querySelector(".contenedor-peliculas")
 const pagina = document.querySelector(".pagina")
 const botonSiguiente = document.querySelector(".siguiente")
 const botonAnterior = document.querySelector(".anterior")
+const botonTrending = document.querySelector(".trending")
+const botonTopRated = document.querySelector(".top-rated")
+const botonUpComing = document.querySelector(".up-coming")
 
 // Objeto para poder mantener el estado actual de la aplicación
 const appState = {
@@ -38,7 +41,7 @@ const renderPeliculas = (data) => {
         return peliculaData(pelicula)
     })
     
-    contenedorPeliculas.innerHTML += lista.map((pelicula) => {
+    contenedorPeliculas.innerHTML = lista.map((pelicula) => {
         return peliculaCardTemplate(pelicula)
     }).join("")
 }
@@ -104,6 +107,36 @@ const toggleBotonSiguiente = () => {
     }
 }
 
+// Función para renderizar la próxima página cuando el usuario haga click en el paginado
+const renderProximaPagina = async(evento) => {
+    if (evento.target.classList.contains("siguiente") && appState.page === appState.totalPage){
+        return
+    } else if (evento.target.classList.contains("siguiente") && appState.url === urlTrending){
+        appState.page = appState.page + 1
+        appState.url = urlTrending
+        const data = await requestAPI(appState.url,appState.page)
+        actualizarPaginado()
+        renderPeliculas(data.results)
+    } 
+}
+
+// Función para renderizar la anterior página cuando el usuario haga click en el paginado
+const renderAnteriorPagina = async(evento) => {
+    if (evento.target.classList.contains("anterior") && appState.page === 1){
+        return
+    } else if (evento.target.classList.contains("anterior") && appState.url === urlTrending){
+        appState.page = appState.page - 1
+        appState.url = urlTrending
+        const data = await requestAPI(appState.url, appState.page)
+        actualizarPaginado()
+        renderPeliculas(data.results)
+    } 
+}
+
+// Función para renderizar las películas Trending
+// const renderTrending = (evento) => {
+//     if ()
+// }
 
 
 
@@ -112,7 +145,8 @@ const toggleBotonSiguiente = () => {
 const init = () => {
     // Apenas se carga todo el DOM de la aplicación, se escucha este evento para disparar la función correspondiente
     window.addEventListener("DOMContentLoaded", renderInicial)
-    botonSiguiente.addEventListener("click")
+    botonSiguiente.addEventListener("click", renderProximaPagina)
+    botonAnterior.addEventListener("click", renderAnteriorPagina)
 }
 
 init()
